@@ -9,9 +9,11 @@ Frontend uses React code. KaTeX is used to render equations.
 To run it  in production mode use the normal routine.
 Edit App.js websocket address according to your needs, make cumstomizations
 
-`npm i`
-`npm run build`
-`serve -s build/`
+``` 
+npm i
+npm run build
+serve -s build/
+```
 
 in the front directory. 
 
