@@ -18,7 +18,7 @@ serve -s build/
 in the front directory. 
 
 Backend is a simple websocket server utilising Python script which parses commands made by the frontend. For symbolic and numeric calculations it uses SymPy.
-It also has a subserver called TeX2SVG running node and websockets (for plausible portability reasons). It utilizes MathJaX to formulate SVG code from TeX equations.
+It also has a subserver called TeX2SVG running node and websockets (for plausible portability reasons). It utilizes MathJaX to formulate SVG code from TeX equations. The reason to do instead of pure system commands is experiementation and much shorter processing times from few milliseconds to sub milliseconds  which is magnitudes faster.
 
 Backend needs 
 
