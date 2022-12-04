@@ -2,7 +2,10 @@
 #node: install node -> npm i in TeX2SvgServer directory
 import asyncio
 import websockets
-import json
+try:
+    import ujson as json
+except:
+    import json
 import parse_equation
 from time import sleep
 #this one operates as a connector to node-express ws
@@ -90,16 +93,18 @@ async def process(websocket):
                 case 'svg':
                     send_message["message"] = "svg"
                     send_message["svg"] = SVG
-                    try:
-                        ws.send(json.dumps(message_parsed["svg"]))
-                        send_message["svg"] = json.loads(ws.recv())
-                    except:
-                        connect_to_tex2svg()
-                        try:
-                            ws.send(json.dumps(message_parsed["svg"]))
-                            send_message["svg"] = json.loads(ws.recv())
-                        except:
-                            pass
+                    #try:
+                    ws.send(json.dumps(message_parsed["svg"]))
+                    svg_received = json.loads(ws.recv())
+                    #print(svg_received)
+                    send_message["svg"] = svg_received
+                    # except:
+                    #     connect_to_tex2svg()
+                    #     try:
+                    #         ws.send(json.dumps(message_parsed["svg"]))
+                    #         send_message["svg"] = json.loads(ws.recv())
+                    #     except:
+                    #         pass
                 case 'pdf':
                     tex_file = message_parsed["tex"]
                     pdf = xeTex(tex_file)
@@ -113,20 +118,21 @@ async def process(websocket):
         await websocket.send(json.dumps(send_message))
 
 async def main():
-     async with websockets.serve(process, "localhost", 8765):
-         await asyncio.Future()  # run forever
+    #async with websockets.serve(process, "localhost", 8765):
+    async with websockets.serve(process, "localhost", 8765):
+        await asyncio.Future()  # run forever
 
-#async def main():
-#    # Set the stop condition when receiving SIGTERM.
-#    loop = asyncio.get_running_loop()
-#    stop = loop.create_future()
-#    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
-
-#    async with websockets.unix_serve(
-#        process,
-#       path=f"{os.environ['SUPERVISOR_PROCESS_NAME']}.sock",
-#   ):
-#        await stop
+# async def main():
+#     # Set the stop condition when receiving SIGTERM.
+#     loop = asyncio.get_running_loop()
+#     stop = loop.create_future()
+#     loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
+#
+#     async with websockets.unix_serve(
+#         process,
+#         path=f"{os.environ['SUPERVISOR_PROCESS_NAME']}.sock",
+#     ):
+#         await stop
 
 
 asyncio.run(main())
