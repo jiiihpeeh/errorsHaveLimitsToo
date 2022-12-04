@@ -8,17 +8,23 @@ Live demo is available at https://kukkoilija.chickenkiller.com/errorshavelimitst
 Frontend uses React code. KaTeX is used to render equations. 
 To run it  in production mode use the normal routine.
 Edit App.js websocket address according to your needs, make cumstomizations
+`npm i
 `npm run build`
 `serve -s build/`
+
 in the front directory. 
 
 Backend is a simple websocket server utilising Python script which parses commands made by the frontend. For symbolic and numeric calculations it uses SymPy.
 It also has a subserver called TeX2SVG running node and websockets (for plausible portability reasons). It utilizes MathJaX to formulate SVG code from TeX equations.
 
 Backend needs 
+
 `pip install websockets websocket-client wsaccel sympy ujson`
+
 For LateX output XeTeX and amsmath needs to be installed.
+
 For Tex2SVG install node, go in inside the directory and run 
+
 `npm i`
 
 
