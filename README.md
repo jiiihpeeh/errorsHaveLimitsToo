@@ -30,4 +30,4 @@ For Tex2SVG install node, go in inside the directory and run
 
 `npm i`
 
-TODO Pure JS version
+TODO Pure JS version (no backend)
