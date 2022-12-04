@@ -8,7 +8,8 @@ Live demo is available at https://kukkoilija.chickenkiller.com/errorshavelimitst
 Frontend uses React code. KaTeX is used to render equations. 
 To run it  in production mode use the normal routine.
 Edit App.js websocket address according to your needs, make cumstomizations
-`npm i
+
+`npm i`
 `npm run build`
 `serve -s build/`
 
@@ -27,4 +28,4 @@ For Tex2SVG install node, go in inside the directory and run
 
 `npm i`
 
-
+TODO Pure JS version
