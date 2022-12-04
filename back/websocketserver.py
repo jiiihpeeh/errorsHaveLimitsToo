@@ -112,21 +112,21 @@ async def process(websocket):
             pass
         await websocket.send(json.dumps(send_message))
 
-# async def main():
-#     async with websockets.serve(process, "localhost", 8765):
-#         await asyncio.Future()  # run forever
-
 async def main():
-    # Set the stop condition when receiving SIGTERM.
-    loop = asyncio.get_running_loop()
-    stop = loop.create_future()
-    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
+     async with websockets.serve(process, "localhost", 8765):
+         await asyncio.Future()  # run forever
 
-    async with websockets.unix_serve(
-        process,
-        path=f"{os.environ['SUPERVISOR_PROCESS_NAME']}.sock",
-    ):
-        await stop
+#async def main():
+#    # Set the stop condition when receiving SIGTERM.
+#    loop = asyncio.get_running_loop()
+#    stop = loop.create_future()
+#    loop.add_signal_handler(signal.SIGTERM, stop.set_result, None)
+
+#    async with websockets.unix_serve(
+#        process,
+#       path=f"{os.environ['SUPERVISOR_PROCESS_NAME']}.sock",
+#   ):
+#        await stop
 
 
 asyncio.run(main())
