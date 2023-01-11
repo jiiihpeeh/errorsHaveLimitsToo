@@ -2,6 +2,7 @@
 A tool to compute uncertainty equations and numeric values for a given equation using the Law of Error Propagation https://en.wikipedia.org/wiki/Propagation_of_uncertainty .
 It has an ability to export equations in form of LaTeX files and compiled PDF files (made by XeLaTeX).
 
+A standalone version is aviable at https://github.com/jiiihpeeh/erroshavelimitstoo-Tauri
 Live demo is available at https://kukkoilija.chickenkiller.com/errorshavelimitstoo/
 
 
