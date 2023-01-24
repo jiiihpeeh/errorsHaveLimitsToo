@@ -26,6 +26,9 @@ Backend needs
 
 `pip install websockets websocket-client wsaccel sympy ujson`
 
+or Nim
+`nimble install  ws jsony nimpy supersnappy`
+
 For LateX output XeTeX and amsmath needs to be installed.
 
 For Tex2SVG install node, go in inside the directory and run 
