@@ -12,7 +12,7 @@ const
     wsAddress = "ws://localhost:5001/tex2svg"
     xelatex = "/usr/bin/xelatex"
     node = "/home/j-p/node-v18.12.1-linux-arm64/bin/node"
-    svgServer = serverPath & "/back/Tex2SvgServer/Tex2SVG.js"
+    svgServer = serverPath & "/back/Tex2SvgServer/"
     port = 8765# 8765
     svgPort = parseInt(wsAddress.split(":")[2].split("/")[0])
 
@@ -22,6 +22,7 @@ var
     wsSocket : WebSocket
     scriptLoaded = false
     wsInit = false
+    svgProc : Process
 
 
 type
@@ -39,7 +40,6 @@ type
         Fail = "fail"
 
     CalcArrays = Table[string, array[2,float]]
-    UsedSymbols = Table[string, array[2,string]]
     ParseUsedSymbols  = Table[string, array[3,string]]
 
     CalcObject = object
@@ -51,9 +51,6 @@ type
     CalcResult = object
         result: string
         error: string
-    CalcMessage = object 
-        message: string
-        result: CalcResult
 
     ParseResult = object 
         original_equation: string
@@ -97,10 +94,8 @@ type
 
 
 proc runTex2svgServer()=
-    try:
-        discard execCmd(node & " " & svgServer)
-    except:
-        discard
+    svgProc = startProcess(node, svgServer,  ["Tex2SVG.js"])
+
 
 runTex2svgServer()
 
@@ -120,6 +115,9 @@ proc getSvgWs(texData:string):string=
             svgData = await wsSocket.receiveStrPacket()
         except:
             svgData = ""
+            runTex2svgServer()
+            sleep(4000)
+            await svgQuery()
     query =  texData.toJson
     waitFor svgQuery()
     if svgData.len > 0:
