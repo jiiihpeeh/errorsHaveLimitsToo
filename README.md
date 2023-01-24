@@ -26,9 +26,11 @@ Websocket backend needs either Python
 
 `pip install websockets websocket-client wsaccel sympy ujson`
 
-or Nim (recommended)
+or Nim (recommended) and Sympy
 
 `nimble install  ws jsony nimpy supersnappy`
+
+`pip install sympy`
 
 For LateX output XeTeX and amsmath needs to be installed.
 
