@@ -108,6 +108,14 @@ def evaluate_eq(eq, value_dict, eq_values):
         return None
     
 
+def tenExp(s:str)->str:
+    if s == 'None':
+        return s
+    k= s.split('e')
+    if len(k) != 2:
+        return s
+    return k[0] + '\cdot 10 ^ {'+ k[1].replace('+','') + '}'
+
 def parse(eq):
     original_eq = eq    
     evaluator = Evaluator(eq)
@@ -133,5 +141,4 @@ def calculate(body):
     values = body["values"]
     used_symbols=body["used_symbols"]
     new_dict, eq_values = evaluation_dict(values,used_symbols)
-
-    return {'result':evaluate_eq(eq,new_dict, eq_values), "error":evaluate_eq(error_eq, new_dict, eq_values)}
+    return {'result': tenExp(str(evaluate_eq(eq,new_dict, eq_values))), "error": tenExp(str(evaluate_eq(error_eq, new_dict, eq_values)))}
