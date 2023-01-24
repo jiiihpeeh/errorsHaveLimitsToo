@@ -23,10 +23,12 @@ Backend is a simple websocket server utilizing Python script which parses comman
 It also has a subserver called TeX2SVG running node and websockets (for plausible portability reasons). It utilizes MathJaX to formulate SVG code from TeX equations. The reason to do this instead of making system commands is experimentation and much shorter processing times from few milliseconds to sub milliseconds  which is magnitudes faster.
 
 Backend needs 
+Either Python 
 
 `pip install websockets websocket-client wsaccel sympy ujson`
 
-or Nim
+or Nim (recommended)
+
 `nimble install  ws jsony nimpy supersnappy`
 
 For LateX output XeTeX and amsmath needs to be installed.
