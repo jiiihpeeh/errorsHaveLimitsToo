@@ -191,7 +191,7 @@ proc cb(req: Request) {.async, gcsafe.} =
             msg = ""
             let packet = await ws.receiveStrPacket()
             try:
-                if packet.len < 100000 and packet.startsWith("""{"query"""):
+                if packet.len < 100000 and packet.startsWith("""{"query""") and packet.endsWith("""}"""):
                     unpacked = packet.fromJson(InputJson)
                 else:
                     unpacked = InputJson(query: Fail)
