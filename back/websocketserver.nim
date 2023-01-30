@@ -99,7 +99,11 @@ proc runTex2svgServer()=
 
 runTex2svgServer()
 
-proc getSvgWs(texData:string):string=
+proc getSvgWs(texData:string):string=            
+    if not svgProc.running:
+        runTex2svgServer()
+        sleep(500)
+
     result = ""
     var
         svgData : string
@@ -115,9 +119,7 @@ proc getSvgWs(texData:string):string=
             svgData = await wsSocket.receiveStrPacket()
         except:
             svgData = ""
-            runTex2svgServer()
-            sleep(4000)
-            await svgQuery()
+
     query =  texData.toJson
     waitFor svgQuery()
     if svgData.len > 0:
@@ -189,7 +191,10 @@ proc cb(req: Request) {.async, gcsafe.} =
             msg = ""
             let packet = await ws.receiveStrPacket()
             try:
-                unpacked = packet.fromJson(InputJson)
+                if packet.len < 100000 and packet.startsWith("""{"query"""):
+                    unpacked = packet.fromJson(InputJson)
+                else:
+                    unpacked = InputJson(query: Fail)
             except:
                 unpacked = InputJson(query: Fail)
             #echo unpacked
@@ -223,10 +228,11 @@ proc cb(req: Request) {.async, gcsafe.} =
                     let pdf = executeLaTeX(unpacked.tex)
                     msg = OutputJson(message: PdfOut, pdf: pdf).toJson
                 except:
-                        discard
+                    discard
                 await ws.send(msg)
             of Fail:
-                discard
+                await ws.send(false.toJson)
+
     except WebSocketError:
         echo "socket closed:", getCurrentExceptionMsg()
 
