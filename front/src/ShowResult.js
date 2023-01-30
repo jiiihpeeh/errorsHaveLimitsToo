@@ -2,8 +2,9 @@ import { useContext } from "react";
 import { Text, VStack, HStack, Tooltip } from "@chakra-ui/react";
 import { QuestionIcon } from '@chakra-ui/icons'
 import { EquationContext } from "./EquationContext";
-import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
+import 'katex/dist/katex.min.css';
+
 const ShowResult = () => {
     const { evaluated, equation } = useContext(EquationContext);
     return(
@@ -16,7 +17,7 @@ const ShowResult = () => {
                     <InlineMath>
                         {`${equation.tex_prefix} \\pm \\delta ${equation.tex_prefix} = ${evaluated.result} \\pm ${evaluated.error}`}
                     </InlineMath>
-                    <Tooltip label="SymPy might not handle division by zero correctly">
+                    <Tooltip label="SymPy evaluation is not going to track plausible division by zero">
                         <QuestionIcon/>
                     </Tooltip>
                     </HStack>
